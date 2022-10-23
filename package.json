@@ -1,0 +1,36 @@
+{
+  "name": "volar-plugin-vue-router",
+  "version": "0.0.1",
+  "description": "Volar plugin for route custom block in Vue SFC",
+  "keywords": [
+    "volar",
+    "json",
+    "jsonschema"
+  ],
+  "main": "dist/index.js",
+  "author": "Yue JIN <yuejin13@fudan.edu.cn>",
+  "license": "MIT",
+  "files": [
+    "dist/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingyue737/volar-plugin-vue-router.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "vscode-json-languageservice": "^5.1.1",
+    "vscode-languageserver-protocol": "^3.17.2",
+    "vscode-languageserver-textdocument": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@volar/language-service": "^1.0.8",
+    "typescript": "^4.8.4"
+  }
+}
+
