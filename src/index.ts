@@ -3,26 +3,39 @@ import * as json from "vscode-json-languageservice";
 import * as vscode from "vscode-languageserver-protocol";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-// modify of https://github.com/johnsoncodehk/volar/blob/master/plugins/json/src/index.ts
-export = function (schemaUrls: Record<string, string>): LanguageServicePlugin {
+// Modify of https://github.com/johnsoncodehk/volar/blob/master/plugins/json/src/index.ts
+export = function (): LanguageServicePlugin {
   const jsonDocuments = new WeakMap<
     TextDocument,
-    [number, TextDocument, json.JSONDocument]
+    [number, json.JSONDocument]
   >();
 
   let jsonLs: json.LanguageService;
+  const jsonSchema = {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+      },
+      country: {
+        type: "string",
+        enum: ["Ireland", "Iceland"],
+      },
+    },
+  };
 
   return {
     setup(_context) {
-      jsonLs = json.getLanguageService({
-        schemaRequestService: _context.env.schemaRequestService,
-        workspaceContext: _context.env.documentContext
-          ? {
-              resolveRelativePath: (ref, base) =>
-                _context.env.documentContext!.resolveReference(ref, base) ??
-                ref,
-            }
-          : undefined,
+      jsonLs = json.getLanguageService({});
+      jsonLs.configure({
+        allowComments: false,
+        schemas: [
+          {
+            fileMatch: ["*.customBlock_route_*.json"],
+            uri: "foo://route-custom-block.schema.json",
+            schema: jsonSchema,
+          },
+        ],
       });
     },
 
@@ -31,7 +44,7 @@ export = function (schemaUrls: Record<string, string>): LanguageServicePlugin {
       triggerCharacters: ['"', ":"],
 
       on(document, position, context) {
-        return worker(document, async (document, jsonDocument) => {
+        return worker(document, async (jsonDocument) => {
           return await jsonLs.doComplete(document, position, jsonDocument);
         });
       },
@@ -43,21 +56,17 @@ export = function (schemaUrls: Record<string, string>): LanguageServicePlugin {
 
     validation: {
       onSyntactic(document) {
-        return worker(document, async (document, jsonDocument) => {
-          const documentLanguageSettings = undefined; // await getSettings(); // TODO
-
+        return worker(document, async (jsonDocument) => {
           return (await jsonLs.doValidation(
             document,
-            jsonDocument,
-            documentLanguageSettings,
-            undefined // TODO
+            jsonDocument
           )) as vscode.Diagnostic[];
         });
       },
     },
 
     doHover(document, position) {
-      return worker(document, async (document, jsonDocument) => {
+      return worker(document, async (jsonDocument) => {
         return await jsonLs.doHover(document, position, jsonDocument);
       });
     },
@@ -65,12 +74,12 @@ export = function (schemaUrls: Record<string, string>): LanguageServicePlugin {
 
   function worker<T>(
     document: TextDocument,
-    callback: (doc: TextDocument, jsonDocument: json.JSONDocument) => T
+    callback: (jsonDocument: json.JSONDocument) => T
   ) {
     const jsonDocument = getJsonDocument(document);
     if (!jsonDocument) return;
 
-    return callback(jsonDocument[0], jsonDocument[1]);
+    return callback(jsonDocument);
   }
 
   function getJsonDocument(textDocument: TextDocument) {
@@ -80,41 +89,17 @@ export = function (schemaUrls: Record<string, string>): LanguageServicePlugin {
     )
       return;
 
-    const match = textDocument.uri.match(
-      /^(.*)\.customBlock_([^_]+)_(\d+)\.([^.]+)$/
-    );
-    if (!match) return;
-
-    const blockType = match[2];
-    const schemaUrl = schemaUrls[blockType];
-    if (!schemaUrl) return;
-
     const cache = jsonDocuments.get(textDocument);
     if (cache) {
-      const [cacheVersion, cacheDoc, cacheJsonDoc] = cache;
+      const [cacheVersion, cacheDoc] = cache;
       if (cacheVersion === textDocument.version) {
-        return [cacheDoc, cacheJsonDoc] as const;
+        return cacheDoc;
       }
     }
 
-    const insertIndex = textDocument.getText().lastIndexOf("}");
-    const needComma = textDocument.getText().indexOf('"') >= 0;
-    const modifyDoc =
-      insertIndex >= 0
-        ? TextDocument.create(
-            textDocument.uri,
-            textDocument.languageId,
-            textDocument.version,
-            textDocument.getText().substring(0, insertIndex) +
-              (needComma ? "," : "") +
-              `"$schema":"${schemaUrl}"` +
-              textDocument.getText().substring(insertIndex)
-          )
-        : textDocument;
-    const jsonDoc = jsonLs.parseJSONDocument(modifyDoc);
+    const doc = jsonLs.parseJSONDocument(textDocument);
+    jsonDocuments.set(textDocument, [textDocument.version, doc]);
 
-    jsonDocuments.set(textDocument, [textDocument.version, modifyDoc, jsonDoc]);
-
-    return [modifyDoc, jsonDoc] as const;
+    return doc;
   }
 };
