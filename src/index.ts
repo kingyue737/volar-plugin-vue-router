@@ -2,27 +2,25 @@ import type { LanguageServicePlugin } from "@volar/language-service";
 import * as json from "vscode-json-languageservice";
 import * as vscode from "vscode-languageserver-protocol";
 import { TextDocument } from "vscode-languageserver-textdocument";
+import schemaJson from "./schema.json";
+import { createGenerator, type Config } from "ts-json-schema-generator";
+
+// const config: Config = {
+//   path: "./route-type.d.ts",
+//   type: "CustomRouteBlock",
+// };
 
 // Modify of https://github.com/johnsoncodehk/volar/blob/master/plugins/json/src/index.ts
-export = function (): LanguageServicePlugin {
+export = function (config?: Config): LanguageServicePlugin {
   const jsonDocuments = new WeakMap<
     TextDocument,
     [number, json.JSONDocument]
   >();
 
   let jsonLs: json.LanguageService;
-  const jsonSchema = {
-    type: "object",
-    properties: {
-      name: {
-        type: "string",
-      },
-      country: {
-        type: "string",
-        enum: ["Ireland", "Iceland"],
-      },
-    },
-  };
+  const schema = config
+    ? createGenerator(config).createSchema(config.type)
+    : schemaJson;
 
   return {
     setup(_context) {
@@ -33,7 +31,7 @@ export = function (): LanguageServicePlugin {
           {
             fileMatch: ["*.customBlock_route_*.json"],
             uri: "foo://route-custom-block.schema.json",
-            schema: jsonSchema,
+            schema: schema as any,
           },
         ],
       });

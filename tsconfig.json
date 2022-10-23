@@ -9,6 +9,7 @@
     "declaration": true,
     "strict": true,
     "alwaysStrict": false,
+    "esModuleInterop": true,
     "noImplicitUseStrict": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -18,5 +19,5 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src"]
+  "include": ["src", "src/schema.json"]
 }

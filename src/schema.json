@@ -1,0 +1,58 @@
+{
+  "$ref": "#/definitions/CustomRouteBlock",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "CustomRouteBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "alias": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Aliases for the record. Allows defining extra paths that will behave like a copy of the record. Allows having paths shorthands like `/users/:id` and `/u/:id`. All `alias` and `path` values must share the same params."
+        },
+        "end": {
+          "description": "Should the RegExp match until the end by appending a `$` to it.",
+          "type": "boolean"
+        },
+        "meta": {
+          "$ref": "#/definitions/RouteMeta",
+          "description": "Arbitrary data attached to the record."
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "description": "Path of the record. Should start with `/` unless the record is the child of another record.",
+          "type": "string"
+        },
+        "redirect": {
+          "type": "string"
+        },
+        "sensitive": {
+          "description": "Makes the RegExp case-sensitive.",
+          "type": "boolean"
+        },
+        "strict": {
+          "description": "Whether to disallow a trailing slash or not.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "RouteMeta": {
+      "additionalProperties": {},
+      "description": "Interface to type `meta` fields in route records.",
+      "properties": {},
+      "type": "object"
+    }
+  }
+}
