@@ -1,6 +1,6 @@
 {
   "name": "volar-plugin-vue-router",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Volar plugin for route custom block in Vue SFC",
   "keywords": [
     "volar",
@@ -11,8 +11,7 @@
   "author": "Yue JIN <yuejin13@fudan.edu.cn>",
   "license": "MIT",
   "files": [
-    "dist/*.js",
-    "dist/**/*.d.ts"
+    "dist/*"
   ],
   "repository": {
     "type": "git",
