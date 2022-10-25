@@ -13,6 +13,14 @@ export interface CustomRouteBlock
       | "props"
     >
   > {
+  /**
+   * Name for the route record.
+   */
   name?: string;
+  /**
+   * Where to redirect if the route is directly matched. The redirection happens
+   * before any navigation guard and triggers a new navigation with the new
+   * target location.
+   */
   redirect?: string;
 }

@@ -2,25 +2,33 @@ import type { LanguageServicePlugin } from "@volar/language-service";
 import * as json from "vscode-json-languageservice";
 import * as vscode from "vscode-languageserver-protocol";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import schemaJson from "./schema.json";
+import customBlockSchema from "./schema.json";
 import { createGenerator, type Config } from "ts-json-schema-generator";
 
-// const config: Config = {
-//   path: "./route-type.d.ts",
-//   type: "CustomRouteBlock",
-// };
+type PluginConfig = Pick<Config, "path" | "tsconfig">;
 
 // Modify of https://github.com/johnsoncodehk/volar/blob/master/plugins/json/src/index.ts
-export = function (config?: Config): LanguageServicePlugin {
+export = function (config: PluginConfig = {}): LanguageServicePlugin {
   const jsonDocuments = new WeakMap<
     TextDocument,
     [number, json.JSONDocument]
   >();
 
   let jsonLs: json.LanguageService;
-  const schema = config
-    ? createGenerator(config).createSchema(config.type)
-    : schemaJson;
+  try {
+    const routeMetaSchema = createGenerator({
+      skipTypeCheck: true,
+      type: "RouteMeta",
+      ...config,
+    }).createSchema("RouteMeta");
+    customBlockSchema.definitions = {
+      ...customBlockSchema.definitions,
+      ...routeMetaSchema.definitions,
+    };
+  } catch (e) {
+    console.log("[Error] volar-plugin-vue-router:");
+    console.log(e);
+  }
 
   return {
     setup(_context) {
@@ -31,7 +39,7 @@ export = function (config?: Config): LanguageServicePlugin {
           {
             fileMatch: ["*.customBlock_route_*.json"],
             uri: "foo://route-custom-block.schema.json",
-            schema: schema as any,
+            schema: customBlockSchema,
           },
         ],
       });

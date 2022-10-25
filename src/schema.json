@@ -28,6 +28,7 @@
           "description": "Arbitrary data attached to the record."
         },
         "name": {
+          "description": "Name for the route record.",
           "type": "string"
         },
         "path": {
@@ -35,6 +36,7 @@
           "type": "string"
         },
         "redirect": {
+          "description": "Where to redirect if the route is directly matched. The redirection happens before any navigation guard and triggers a new navigation with the new target location.",
           "type": "string"
         },
         "sensitive": {
