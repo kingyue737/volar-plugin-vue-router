@@ -13,7 +13,7 @@ Volar plugin for IntelliSense in `<route>` custom block in Vue SFC. Inspired by 
 ## Usage
 
 ```sh
-pnpm add volar-plugin-vue-router
+pnpm add -D volar-plugin-vue-router
 # or
 npm i -D volar-plugin-vue-router
 # or
