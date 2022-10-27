@@ -85,11 +85,6 @@ Generated Schema:
     "RouteMeta": {
       "additionalProperties": false,
       "properties": {
-        "breadcrumb": {
-          "description": "Default is enabled",
-          "enum": ["hidden", "disabled"],
-          "type": "string"
-        },
         "drawerGroup": {
           "description": "Groups will be separated by divider line in drawer",
           "enum": ["admin", "PUC"],
