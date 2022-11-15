@@ -28,16 +28,10 @@
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.11",
-    "@types/node": "latest",
-    "@volar/language-service": "^1.0.8",
+    "@types/node": "^18.11.9",
+    "@volar/language-service": "^1.0.9",
     "typescript": "^4.8.4",
-    "vue-router": "^4.1.5"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "vue"
-      ]
-    }
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   }
 }
