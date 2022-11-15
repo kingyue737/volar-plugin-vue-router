@@ -24,9 +24,7 @@
   },
   "dependencies": {
     "ts-json-schema-generator": "^1.1.2",
-    "vscode-json-languageservice": "^5.1.1",
-    "vscode-languageserver-protocol": "^3.17.2",
-    "vscode-languageserver-textdocument": "^1.0.7"
+    "vscode-json-languageservice": "^5.1.1"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.11",
@@ -34,5 +32,12 @@
     "@volar/language-service": "^1.0.8",
     "typescript": "^4.8.4",
     "vue-router": "^4.1.5"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vue"
+      ]
+    }
   }
 }

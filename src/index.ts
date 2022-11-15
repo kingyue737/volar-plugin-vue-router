@@ -1,7 +1,10 @@
 import type { LanguageServicePlugin } from "@volar/language-service";
-import * as json from "vscode-json-languageservice";
-import * as vscode from "vscode-languageserver-protocol";
-import { TextDocument } from "vscode-languageserver-textdocument";
+import {
+  type JSONDocument,
+  type TextDocument,
+  type LanguageService,
+  getLanguageService,
+} from "vscode-json-languageservice";
 import customBlockSchema from "./schema.json";
 import { createGenerator, type Config } from "ts-json-schema-generator";
 
@@ -9,12 +12,9 @@ type PluginConfig = Pick<Config, "path" | "tsconfig">;
 
 // Modify of https://github.com/johnsoncodehk/volar/blob/master/plugins/json/src/index.ts
 export = function (config: PluginConfig = {}): LanguageServicePlugin {
-  const jsonDocuments = new WeakMap<
-    TextDocument,
-    [number, json.JSONDocument]
-  >();
+  const jsonDocuments = new WeakMap<TextDocument, [number, JSONDocument]>();
 
-  let jsonLs: json.LanguageService;
+  let jsonLs: LanguageService;
   try {
     const routeMetaSchema = createGenerator({
       skipTypeCheck: true,
@@ -32,7 +32,7 @@ export = function (config: PluginConfig = {}): LanguageServicePlugin {
 
   return {
     setup(_context) {
-      jsonLs = json.getLanguageService({});
+      jsonLs = getLanguageService({});
       jsonLs.configure({
         allowComments: false,
         schemas: [
@@ -63,10 +63,7 @@ export = function (config: PluginConfig = {}): LanguageServicePlugin {
     validation: {
       onSyntactic(document) {
         return worker(document, async (jsonDocument) => {
-          return (await jsonLs.doValidation(
-            document,
-            jsonDocument
-          )) as vscode.Diagnostic[];
+          return await jsonLs.doValidation(document, jsonDocument);
         });
       },
     },
@@ -80,7 +77,7 @@ export = function (config: PluginConfig = {}): LanguageServicePlugin {
 
   function worker<T>(
     document: TextDocument,
-    callback: (jsonDocument: json.JSONDocument) => T
+    callback: (jsonDocument: JSONDocument) => T
   ) {
     const jsonDocument = getJsonDocument(document);
     if (!jsonDocument) return;
