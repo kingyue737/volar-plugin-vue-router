@@ -35,10 +35,10 @@ module.exports = {
 Vue Router allows users to [type the meta field by extending the `RouteMeta`](https://router.vuejs.org/guide/advanced/meta.html#typescript). You can pass the path of source file containing `RouteMeta` type and the path of `tsconfig` to this plugin. For example:
 
 ```js
-const route = require("volar-plugin-vue-router");
+const route = require("volar-plugin-vue-router").default;
 
 module.exports = {
-  plugins: [
+  services: [
     route({ path: "src/route-meta.d.ts", tsconfig: "./tsconfig.app.json" }),
   ],
 };

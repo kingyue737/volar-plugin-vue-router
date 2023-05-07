@@ -1,6 +1,6 @@
 {
   "name": "volar-plugin-vue-router",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Volar plugin for route custom block in Vue SFC",
   "keywords": [
     "volar",
@@ -24,13 +24,13 @@
   },
   "dependencies": {
     "ts-json-schema-generator": "^1.2.0",
-    "vscode-json-languageservice": "^5.3.0"
+    "vscode-json-languageservice": "^5.3.4"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.11",
-    "@types/node": "^18.13.0",
-    "@volar/language-service": "^1.1.0",
-    "typescript": "^4.9.5",
+    "@types/node": "^18.16.5",
+    "@volar/language-service": "^1.5.4",
+    "typescript": "^5.0.4",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   }
