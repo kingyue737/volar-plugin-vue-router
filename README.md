@@ -23,9 +23,12 @@ yarn add -D volar-plugin-vue-router
 `volar.config.js`
 
 ```js
-const route = require("volar-plugin-vue-router");
+const route = require("volar-plugin-vue-router").default;
 
 module.exports = {
+  // volar >= v1.7
+  services: [route()],
+  // volar < v1.7
   plugins: [route()],
 };
 ```
