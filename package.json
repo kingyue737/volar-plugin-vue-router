@@ -24,13 +24,13 @@
   },
   "dependencies": {
     "ts-json-schema-generator": "^1.2.0",
-    "vscode-json-languageservice": "^5.3.4"
+    "vscode-json-languageservice": "^5.3.6"
   },
   "devDependencies": {
-    "@types/json-schema": "^7.0.11",
-    "@types/node": "^18.16.5",
-    "@volar/language-service": "^1.5.4",
-    "typescript": "^5.0.4",
+    "@types/json-schema": "^7.0.13",
+    "@types/node": "^18.18.4",
+    "@volar/language-service": "^1.10.3",
+    "typescript": "^5.2.2",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   }
