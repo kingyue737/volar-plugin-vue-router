@@ -23,15 +23,16 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "ts-json-schema-generator": "^1.2.0",
-    "vscode-json-languageservice": "^5.3.6"
+    "ts-json-schema-generator": "1.2.0",
+    "vscode-json-languageservice": "^5.3.9"
   },
   "devDependencies": {
-    "@types/json-schema": "^7.0.13",
-    "@types/node": "^18.18.4",
-    "@volar/language-service": "^1.10.3",
-    "typescript": "^5.2.2",
-    "vue": "^3.2.47",
-    "vue-router": "^4.1.6"
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^20.11.24",
+    "@volar/language-service": "^2.1.0",
+    "typescript": "^5.3.3",
+    "vue": "3.2.47",
+    "vue-router": "~4.1.6"
   }
 }
+
