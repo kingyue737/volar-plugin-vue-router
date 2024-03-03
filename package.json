@@ -1,6 +1,6 @@
 {
   "name": "volar-plugin-vue-router",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Volar plugin for route custom block in Vue SFC",
   "keywords": [
     "volar",
