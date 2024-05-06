@@ -8,7 +8,8 @@ Volar plugin for IntelliSense in `<route>` custom block in Vue SFC. Inspired by 
   <img src="https://user-images.githubusercontent.com/40021217/197701433-e2ba300b-4247-41c6-99ea-1fc0239e717c.gif" >
 </p>
 
-⚠️ This plugin is experimental. If you found any issue, design flaw, or have ideas to improve it, don't hesitate to open an [issue](https://github.com/kingyue737/volar-plugin-vue-router/issues) or a [discussion](https://github.com/kingyue737/volar-plugin-vue-router/discussions).
+> [!WARNING]  
+> `volar.config.js` is no longer supported since [`Vue - Official` v2](https://github.com/vuejs/language-tools/blob/master/CHANGELOG.md#refactors-1). If you want to use this plugin, please install `Vue - Official` v1.8.27.
 
 ## Usage
 
